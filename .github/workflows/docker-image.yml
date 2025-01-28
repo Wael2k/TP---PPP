@@ -22,7 +22,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Run Docker Compose
-      run: docker-compose up -d
+      run: docker compose up -d
 
 
 
