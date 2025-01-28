@@ -55,6 +55,13 @@ services:
       - internal
     depends_on:
       - app
+volumes:
+  postgres_data:
+  jenkins_home: # Persistent volume for Jenkins configuration and job data
+
+networks:
+  internal:
+  external:
 
 #  jenkins:
 #    build:
@@ -75,11 +82,5 @@ services:
 #      JENKINS_USER: admin
 #      JENKINS_PASS: admin
 
-volumes:
-  postgres_data:
-  jenkins_home: # Persistent volume for Jenkins configuration and job data
 
-networks:
-  internal:
-  external:
 
