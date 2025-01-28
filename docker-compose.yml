@@ -1,6 +1,7 @@
 
 services:
   app:
+    image: 50995452/cicd_pipeline:latest
     build:
       dockerfile: DockerFile
     ports:
@@ -44,6 +45,7 @@ services:
 
 
   nginx:
+    image: 50995452/cicd_pipeline_proxy:latest
     build:
       dockerfile: DockerFileProxy
     container_name: customProxyContainer
