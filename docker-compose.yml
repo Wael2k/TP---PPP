@@ -18,7 +18,7 @@ services:
     image: postgres:latest
     networks:
       - internal
-    container_name: postgres
+    container_name: postgresSqlContainer
     ports:
       - "5432:5432"
     environment:
@@ -30,7 +30,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: pgadmin
+    container_name: pgadminContainer
     ports:
       - "5050:90"
     environment:
