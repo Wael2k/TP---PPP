@@ -2,7 +2,7 @@ version: "3.8"
 services:
   app:
     build:
-      context: .
+      context: src/test/java/com/example/examenprincipalewaelboussoffara
       dockerfile: DockerFile
     ports:
       - "8080:8080"
@@ -46,7 +46,7 @@ services:
 
   nginx:
     build:
-      context: .
+      context: src/test/java/com/example/examenprincipalewaelboussoffara
       dockerfile: DockerFileProxy
     container_name: customProxy
     ports:
