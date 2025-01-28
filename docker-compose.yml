@@ -2,8 +2,7 @@
 services:
   app:
     build:
-      context: src/test/java/com/example/examenprincipalewaelboussoffara
-      dockerfile: Dockerfile
+      dockerfile: DockerFile
     ports:
       - "8080:8080"
     networks:
@@ -46,7 +45,6 @@ services:
 
   nginx:
     build:
-      context: src/test/java/com/example/examenprincipalewaelboussoffara
       dockerfile: DockerFileProxy
     container_name: customProxy
     ports:
