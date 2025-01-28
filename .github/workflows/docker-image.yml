@@ -18,7 +18,14 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
-    - name: Build the Docker image
-      run: docker build -t 50995452/cicd_pipeline .
-    - name: Push to Dockerhub
+    - name: Build the Docker image for main service
+      run: docker build -f DockerFile -t 50995452/cicd_pipeline .
+    - name: Build the Docker image for proxy service
+      run: docker build -f DockerFileProxy -t 50995452/cicd_pipeline_proxy .
+    - name: Push main service image to DockerHub
       run: docker push 50995452/cicd_pipeline:latest
+    - name: Push proxy service image to DockerHub
+      run: docker push 50995452/cicd_pipeline_proxy:latest
+
+
+
