@@ -1,7 +1,5 @@
 package com.example.examenprincipalewaelboussoffara.security;
 
-import com.example.examenprincipalewaelboussoffara.security.dao.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

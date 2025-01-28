@@ -1,6 +1,6 @@
 package com.example.examenprincipalewaelboussoffara.security;
 
-import com.example.examenprincipalewaelboussoffara.security.dao.model.User;
+import com.example.examenprincipalewaelboussoffara.dao.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
