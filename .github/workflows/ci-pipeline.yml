@@ -58,7 +58,6 @@ jobs:
             echo "Cleaning up unused Docker images..."
             docker image prune -af
             docker compose up -d
-
 #    needs: build
 #    runs-on: [aws-ec2]
 #
