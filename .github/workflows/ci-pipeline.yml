@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.SSH_TOKEN }}  # Fixed incorrect key
           script: |
             set -e  # Stop script on errors
-            
+          
             # Navigate to the deployment directory
             cd /home/${{ secrets.SSH_USER }}/TP---PPP || exit 1
 
