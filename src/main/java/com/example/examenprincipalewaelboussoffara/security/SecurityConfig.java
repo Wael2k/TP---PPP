@@ -51,6 +51,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/auth/delete/**").permitAll()
                                 .requestMatchers("/api/v1/auth/login").permitAll()
                                 .requestMatchers("/api/v1/auth/getAll").permitAll()
+                                .requestMatchers("/api/v1/event/test").permitAll()
                                 .requestMatchers("/api/v1/event/getAll").permitAll()
                                 .requestMatchers("/api/v1/event/create").hasRole("ORGANIZER")
                                 .requestMatchers("/api/v1/event/delete/**").hasRole("ADMIN")
