@@ -1,0 +1,65 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Build the Spring Boot application
+      - name: Build the Spring Boot application
+        run: mvn clean install -DskipTests
+
+      # Login to DockerHub
+      - name: Login to DockerHub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      # Build and push the backend image
+      - name: Build and Push Backend Image
+        run: |
+          docker build -f DockerFile -t 50995452/cicd_pipeline:latest .
+          docker push 50995452/cicd_pipeline:latest
+
+      # Build and push the proxy image
+      - name: Build and Push Proxy Image
+        run: |
+          docker build -f DockerFileProxy -t 50995452/cicd_pipeline_proxy:latest .
+          docker push 50995452/cicd_pipeline_proxy:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted  # Ensuring it's running on the correct self-hosted runner
+
+    steps:
+      # Pull the latest images from DockerHub
+      - name: Pull latest images from Docker Hub
+        run: |
+          docker pull 50995452/cicd_pipeline:latest
+          docker pull 50995452/cicd_pipeline_proxy:latest
+
+      # Stop and remove existing containers
+      - name: Stop and Remove Old Containers
+        run: |
+          docker compose down || true
+          docker rm -f $(docker ps -aq --filter name=cicd_pipeline) || true
+          docker rm -f $(docker ps -aq --filter name=cicd_pipeline_proxy) || true
+
+      # Remove old images
+      - name: Remove old Docker images
+        run: |
+          docker rmi -f 50995452/cicd_pipeline:latest || true
+          docker rmi -f 50995452/cicd_pipeline_proxy:latest || true
+
+      # Start new containers using Docker Compose
+      - name: Start Containers using Docker Compose
+        run: |
+          docker compose up -d

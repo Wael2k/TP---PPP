@@ -1,8 +1,10 @@
 
+
 services:
   app:
     image: 50995452/cicd_pipeline:latest
     build:
+      context: .
       dockerfile: DockerFile
     ports:
       - "8080:8080"
@@ -17,11 +19,11 @@ services:
 
   db:
     image: postgres:latest
-    networks:
-      - internal
     container_name: postgresSqlContainer
     ports:
       - "5432:5432"
+    networks:
+      - internal
     environment:
       POSTGRES_DB: examenTP
       POSTGRES_USER: postgres
@@ -33,20 +35,20 @@ services:
     image: dpage/pgadmin4:latest
     container_name: pgadminContainer
     ports:
-      - "5050:90"
+      - "5050:5050"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: pgadmin
     depends_on:
       - db
     networks:
-      - external
       - internal
-
+      - external
 
   nginx:
     image: 50995452/cicd_pipeline_proxy:latest
     build:
+      context: .
       dockerfile: DockerFileProxy
     container_name: customProxyContainer
     ports:
@@ -55,32 +57,12 @@ services:
       - internal
     depends_on:
       - app
+
 volumes:
   postgres_data:
-  jenkins_home: # Persistent volume for Jenkins configuration and job data
 
 networks:
   internal:
+    driver: bridge
   external:
-
-#  jenkins:
-#    build:
-#      context: .
-#      dockerfile: DockerFileJenkins # Ensure this file exists
-#    container_name: jenkins-docker
-#    ports:
-#      - "8081:8080" # Jenkins web interface
-#      - "50000:50000" # Jenkins agent connections
-#    volumes:
-#      - jenkins_home:/var/jenkins_home # Persist Jenkins data
-#      - /var/run/docker.sock:/var/run/docker.sock # Allow Jenkins to use the host's Docker engine
-#    networks:
-#      - internal
-#      - external
-#    environment:
-#      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Optional: Skip setup wizard
-#      JENKINS_USER: admin
-#      JENKINS_PASS: admin
-
-
-
+    driver: bridge
