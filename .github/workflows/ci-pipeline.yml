@@ -45,7 +45,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Fixed incorrect key
+          key: ${{ secrets.SSH_TOKEN }}  # Fixed incorrect key
           script: |
             set -e  # Stop script on errors
             
