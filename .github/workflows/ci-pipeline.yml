@@ -37,7 +37,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: [aws-ac2]  # Ensuring it's running on the correct self-hosted runner
+    runs-on: [aws-ec2]  # Ensuring it's running on the correct self-hosted runner
 
     steps:
       # Pull the latest images from DockerHub
