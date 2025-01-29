@@ -62,4 +62,15 @@ jobs:
       # Start new containers using Docker Compose
       - name: Start Containers using Docker Compose
         run: |
+          
+          cd ../TP---PPP  # Adjust the path to your user directory
+          echo "Pulling the latest images..."
+          docker compose pull
+          echo "Restarting the services..."
+          docker compose down
           docker compose up -d
+          echo "Cleaning up unused Docker images..."
+          docker image prune -af
+          docker compose up -d
+          
+           
