@@ -65,7 +65,6 @@ jobs:
             docker system prune -af
 #    runs-on: [aws-ec2]
 #
-#
 #    steps:
 #      # Pull the latest images from DockerHub
 #      - name: Pull latest images from Docker Hub
