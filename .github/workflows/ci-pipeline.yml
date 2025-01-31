@@ -42,9 +42,9 @@ jobs:
       - name: Set up SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.TOKEN }}" | tr -d '\r' > ~/.ssh/new_key
-          chmod 600 ~/.ssh/new_key
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.TOKEN }}" | tr -d '\r' > /home/${{ secrets.SSH_USER }}/.ssh/new_key
+          chmod 600 /home/${{ secrets.SSH_USER }}/.ssh/new_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> /home/${{ secrets.SSH_USER }}/.ssh/known_hosts
         shell: bash
 
       - name: Navigate to deployment directory
