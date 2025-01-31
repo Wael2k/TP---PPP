@@ -27,7 +27,7 @@ public class EventController {
     @GetMapping("test")
     public ResponseEntity<String> test() {
 
-        return ResponseEntity.ok("Hello World what's up!");
+        return ResponseEntity.ok("Hello World");
     }
     @PutMapping("update")
     public ResponseEntity<EventResponseDto> update(@RequestBody EventUpdateRequestDto eventUpdateRequestDto) {
