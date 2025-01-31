@@ -39,27 +39,30 @@ jobs:
     needs: build
 
     steps:
-      - name: Set up SSH Key
-        run: |
-          mkdir -p /home/${{ secrets.SSH_USER }}/.ssh
-          echo "${{ secrets.TOKEN }}" | tr -d '\r' > /home/${{ secrets.SSH_USER }}/.ssh/new_key
-          chmod 600 /home/${{ secrets.SSH_USER }}/.ssh/new_key
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> /home/${{ secrets.SSH_USER }}/.ssh/known_hosts
-        shell: bash
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Navigate to deployment directory
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/${{ secrets.SSH_USER }}/TP---PPP"
-
-      - name: Pull latest images
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose pull"
-
-      - name: Restart services
-        run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose down"
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose up -d --remove-orphans"
-
-      - name: Cleanup unused Docker images
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker system prune -af"
+      - name: SSH into EC2 and Deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.TOKEN }}
+          script: |
+            set -e  # Stop script on errors
+            
+            echo "Navigating to the deployment directory..."
+            cd /home/${{ secrets.SSH_USER }}/TP---PPP || exit 1
+            
+            echo "Pulling the latest Docker images..."
+            docker-compose pull  
+            
+            echo "Restarting Docker services..."
+            docker-compose down
+            docker-compose up -d --remove-orphans
+            
+            echo "Cleaning up unused Docker images..."
+            docker system prune -af
 #    runs-on: [aws-ec2]
 #
 #
