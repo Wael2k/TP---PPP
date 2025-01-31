@@ -63,6 +63,7 @@ jobs:
             
             echo "Cleaning up unused Docker images..."
             docker system prune -af
+
 #    runs-on: [aws-ec2]
 #    steps:
 #      # Pull the latest images from DockerHub
