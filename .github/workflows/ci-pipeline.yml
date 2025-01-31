@@ -55,14 +55,14 @@ jobs:
             cd /home/${{ secrets.SSH_USER }}/TP---PPP || exit 1
             
             echo "Pulling the latest Docker images..."
-            docker-compose pull  
+            docker compose pull  
             
             echo "Restarting Docker services..."
-            docker-compose down
-            docker-compose up -d --remove-orphans
+            docker compose down
+            docker compose up -d --remove-orphans
             
             echo "Cleaning up unused Docker images..."
-            docker system prune -af
+            docker image prune -af
 
 #    runs-on: [aws-ec2]
 #    steps:
