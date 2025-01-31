@@ -42,8 +42,8 @@ jobs:
       - name: Set up SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.TOKEN }}" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "${{ secrets.TOKEN }}" | tr -d '\r' > ~/.ssh/new_key
+          chmod 600 ~/.ssh/new_key
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
         shell: bash
 
