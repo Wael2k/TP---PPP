@@ -39,28 +39,26 @@ jobs:
     needs: build
 
     steps:
-      - name: SSH into Server and Deploy
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_TOKEN }}  # Fixed incorrect key
-          script: |
-            set -e  # Stop script on errors
-        
-            # Navigate to the deployment directory
-            cd /home/${{ secrets.SSH_USER }}/TP---PPP || exit 1
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_TOKEN }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-            echo "Pulling the latest images..."
-            docker-compose pull  # Use 'docker-compose' for compatibility
+      - name: Navigate to deployment directory
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/${{ secrets.SSH_USER }}/TP---PPP"
 
-            echo "Restarting the services..."
-            docker-compose down
-            docker-compose up -d --remove-orphans
+      - name: Pull latest images
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose pull"
 
-            echo "Cleaning up unused Docker images..."
-            docker system prune -af  # More efficient cleanup
-            #    needs: build
+      - name: Restart services
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose down"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker-compose up -d --remove-orphans"
+
+      - name: Cleanup unused Docker images
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "docker system prune -af"
 #    runs-on: [aws-ec2]
 #
 #
