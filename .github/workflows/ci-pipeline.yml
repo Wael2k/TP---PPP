@@ -59,7 +59,7 @@ jobs:
             
             echo "Restarting Docker services..."
             docker compose down
-            docker compose up -d --remove-orphans
+            docker compose up -d 
             
             echo "Cleaning up unused Docker images..."
             docker image prune -af
